@@ -1,6 +1,6 @@
 import AnimatedSection from '@/components/AnimatedSection';
 import { Phone, Instagram, MessageCircle, MapPin, Mail, MessageSquare } from 'lucide-react';
-import brunchImg from '@/assets/brunch.jpg';
+import brunchImg from '@/assets/img9.png';
 import logo from '@/assets/logo.png';
 
 const ContactSection = () => {
