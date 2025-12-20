@@ -1,7 +1,9 @@
-import { useState, useRef, MouseEvent } from 'react';
+import { useState, useRef, MouseEvent, useEffect } from 'react';
 import AnimatedSection from '@/components/AnimatedSection';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+
+// Keep your image imports here...
 import img1 from '@/assets/img1.png';
 import img2 from '@/assets/img2.png';
 import img3 from '@/assets/img3.png';
@@ -29,7 +31,6 @@ import img25 from '@/assets/img25.png';
 import img26 from '@/assets/img26.png';
 
 const galleryImages = [
-  
   { src: img1, title: 'Photo 1', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img2, title: 'Photo 2', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img3, title: 'Photo 3', ingredients: ["Description: vérifier l'image et modifier"] },
@@ -54,14 +55,97 @@ const galleryImages = [
   { src: img22, title: 'Photo 22', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img24, title: 'Photo 24', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img25, title: 'Photo 25', ingredients: ["Description: vérifier l'image et modifier"] },
-
-  
   { src: img26, title: 'Photo 26', ingredients: ["Description: vérifier l'image et modifier"] },
 ];
 
 const GallerySection = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // --- Animation & Speed Control ---
+  const rafId = useRef<number | null>(null);
+  const speedRef = useRef<number>(0);
+
+  // --- Dragging State ---
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeftStart = useRef(0);
+
+  // 1. Smooth Auto-scroll via Animation Frame
+  const autoScrollStep = () => {
+    if (!scrollRef.current || speedRef.current === 0 || isDragging.current) {
+      rafId.current = null;
+      return;
+    }
+    scrollRef.current.scrollLeft += speedRef.current;
+    rafId.current = requestAnimationFrame(autoScrollStep);
+  };
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    // Handling Drag Logic first
+    if (isDragging.current && scrollRef.current) {
+      e.preventDefault();
+      const x = e.pageX - scrollRef.current.offsetLeft;
+      const walk = (x - startX.current) * 2; // scroll-fast multiplier
+      scrollRef.current.scrollLeft = scrollLeftStart.current - walk;
+      return;
+    }
+
+    // Handling Hover Auto-Scroll logic
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    const xRelative = e.clientX - rect.left;
+    const edgeSize = rect.width * 0.2; // Trigger scroll within 20% of edges
+
+    if (xRelative < edgeSize) {
+      // Near left edge (Negative speed)
+      const intensity = (edgeSize - xRelative) / edgeSize;
+      speedRef.current = -intensity * 10; // Max speed 10px/frame
+    } else if (xRelative > rect.width - edgeSize) {
+      // Near right edge (Positive speed)
+      const intensity = (xRelative - (rect.width - edgeSize)) / edgeSize;
+      speedRef.current = intensity * 10;
+    } else {
+      speedRef.current = 0;
+    }
+
+    if (speedRef.current !== 0 && !rafId.current && !isDragging.current) {
+      rafId.current = requestAnimationFrame(autoScrollStep);
+    }
+  };
+
+  const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+    if (!scrollRef.current) return;
+    isDragging.current = true;
+    startX.current = e.pageX - scrollRef.current.offsetLeft;
+    scrollLeftStart.current = scrollRef.current.scrollLeft;
+    speedRef.current = 0; // Stop auto-scroll while dragging
+  };
+
+  const stopScrolling = () => {
+    isDragging.current = false;
+    speedRef.current = 0;
+    if (rafId.current) {
+      cancelAnimationFrame(rafId.current);
+      rafId.current = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => stopScrolling();
+  }, []);
+
+  const scrollCarousel = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = 400;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   const handlePrevious = () => {
     if (selectedImage !== null) {
@@ -75,61 +159,8 @@ const GallerySection = () => {
     }
   };
 
-  const scrollCarousel = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const scrollAmount = 320;
-      scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  // Cursor-driven auto-scroll
-  const autoScrollDir = useRef<'left' | 'right' | null>(null);
-  const rafId = useRef<number | null>(null);
-
-  const stopAutoScroll = () => {
-    autoScrollDir.current = null;
-    if (rafId.current) {
-      cancelAnimationFrame(rafId.current);
-      rafId.current = null;
-    }
-  };
-
-  const autoScrollStep = () => {
-    if (!scrollRef.current || !autoScrollDir.current) return;
-    const speed = 8; // px per frame, tweak for faster/slower
-    scrollRef.current.scrollBy({ left: autoScrollDir.current === 'left' ? -speed : speed });
-    rafId.current = requestAnimationFrame(autoScrollStep);
-  };
-
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const x = e.clientX - rect.left; // position inside element
-    const third = rect.width / 3;
-
-    if (x < third) {
-      if (autoScrollDir.current !== 'left') {
-        autoScrollDir.current = 'left';
-        if (!rafId.current) rafId.current = requestAnimationFrame(autoScrollStep);
-      }
-    } else if (x > rect.width - third) {
-      if (autoScrollDir.current !== 'right') {
-        autoScrollDir.current = 'right';
-        if (!rafId.current) rafId.current = requestAnimationFrame(autoScrollStep);
-      }
-    } else {
-      stopAutoScroll();
-    }
-  };
-
-  const handleMouseLeave = () => stopAutoScroll();
-
   return (
-    <section id="galerie" className="section-padding bg-background">
+    <section id="galerie" className="section-padding bg-background overflow-hidden">
       <div className="container-custom">
         <AnimatedSection animation="fade-up" className="text-center mb-12">
           <span className="section-divider block mb-4">- CHOIX SPÉCIAL -</span>
@@ -138,7 +169,7 @@ const GallerySection = () => {
           </h2>
         </AnimatedSection>
 
-        {/* Navigation Arrows */}
+        {/* Top Navigation Arrows */}
         <div className="flex justify-center gap-2 mb-8">
           <button
             onClick={() => scrollCarousel('left')}
@@ -155,20 +186,17 @@ const GallerySection = () => {
         </div>
       </div>
 
-      {/* Full-width Carousel */}
-      <div className="relative">
-        {/* Center overlay arrows (like the provided design) */}
+      <div className="relative group/carousel">
+        {/* Floating Side Arrows */}
         <button
           onClick={() => scrollCarousel('left')}
-          aria-label="Précédent"
-          className="hidden md:flex items-center justify-center absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/70 text-white shadow-lg hover:bg-black/80 z-20 transition-colors"
+          className="hidden md:flex items-center justify-center absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/70 text-white shadow-lg hover:bg-primary z-20 transition-all opacity-0 group-hover/carousel:opacity-100"
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
         <button
           onClick={() => scrollCarousel('right')}
-          aria-label="Suivant"
-          className="hidden md:flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/70 text-white shadow-lg hover:bg-black/80 z-20 transition-colors"
+          className="hidden md:flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/70 text-white shadow-lg hover:bg-primary z-20 transition-all opacity-0 group-hover/carousel:opacity-100"
         >
           <ChevronRight className="h-5 w-5" />
         </button>
@@ -176,63 +204,58 @@ const GallerySection = () => {
         <div
           ref={scrollRef}
           onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          className="flex gap-6 overflow-x-auto pb-8 px-4 md:px-8 scrollbar-hide"
-          style={{ scrollSnapType: 'x mandatory', cursor: 'grab' }}
+          onMouseDown={handleMouseDown}
+          onMouseUp={stopScrolling}
+          onMouseLeave={stopScrolling}
+          className="flex gap-6 overflow-x-auto pb-8 px-4 md:px-20 scrollbar-hide select-none"
+          style={{ cursor: isDragging.current ? 'grabbing' : 'grab' }}
         >
-      {galleryImages.map((image, index) => (
-        <div key={index} className="flex-shrink-0" style={{ scrollSnapAlign: 'start' }}>
-          <AnimatedSection
-            animation="scale"
-            delay={index * 50}
-          >
-            <button
-              onClick={() => setSelectedImage(index)}
-              className="group cursor-pointer block"
-            >
-              <div className="relative w-72 md:w-80 overflow-hidden rounded-lg">
-                <img
-                  src={image.src}
-                  alt={image.title}
-                  className="w-full h-64 md:h-72 object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-              </div>
-              <div className="mt-4 text-center">
-                <h3 className="font-display text-xl font-semibold text-foreground mb-2">
-                  {image.title}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {image.ingredients.map((ing, i) => (
-                    <span key={i}>
-                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary mr-1.5 align-middle" />
-                      {ing}
-                      {i < image.ingredients.length - 1 && ' '}
-                    </span>
-                  ))}
-                </p>
-              </div>
-            </button>
-          </AnimatedSection>
+          {galleryImages.map((image, index) => (
+            <div key={index} className="flex-shrink-0">
+              <AnimatedSection animation="scale" delay={index * 30}>
+                <div 
+                  onClick={() => !isDragging.current && setSelectedImage(index)}
+                  className="group block"
+                >
+                  <div className="relative w-72 md:w-80 overflow-hidden rounded-lg">
+                    <img
+                      src={image.src}
+                      alt={image.title}
+                      className="w-full h-64 md:h-72 object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none"
+                    />
+                  </div>
+                  <div className="mt-4 text-center">
+                    <h3 className="font-display text-xl font-semibold text-foreground mb-2">
+                      {image.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {image.ingredients.map((ing, i) => (
+                        <span key={i}>
+                          <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary mr-1.5 align-middle" />
+                          {ing}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                </div>
+              </AnimatedSection>
+            </div>
+          ))}
         </div>
-      ))}
       </div>
-    </div>
 
-      {/* Marquee Text */}
+      {/* Marquee Section */}
       <div className="mt-16 overflow-hidden">
         <div className="marquee-scroll flex whitespace-nowrap">
-          <span className="marquee-text mx-8">DÉLICIEUX</span>
-          <span className="marquee-text-filled mx-8">AWESOME</span>
-          <span className="marquee-text mx-8">EXPÉRIENCE</span>
-          <span className="marquee-text-filled mx-8">CUISINE</span>
-          <span className="marquee-text mx-8">DÉLICIEUX</span>
-          <span className="marquee-text-filled mx-8">AWESOME</span>
-          <span className="marquee-text mx-8">EXPÉRIENCE</span>
-          <span className="marquee-text-filled mx-8">CUISINE</span>
+          {['DÉLICIEUX', 'AWESOME', 'EXPÉRIENCE', 'CUISINE', 'DÉLICIEUX', 'AWESOME', 'EXPÉRIENCE', 'CUISINE'].map((text, i) => (
+            <span key={i} className={i % 2 === 0 ? "marquee-text mx-8" : "marquee-text-filled mx-8"}>
+              {text}
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* Lightbox */}
+      {/* Lightbox Dialog */}
       <Dialog open={selectedImage !== null} onOpenChange={() => setSelectedImage(null)}>
         <DialogContent className="max-w-5xl bg-background border-border p-0">
           <div className="relative">

@@ -5,6 +5,7 @@ import img15 from '@/assets/img15.png';
 import libraryImg from '@/assets/library-space.jpg';
 const AboutSection = () => {
   return <section id="apropos" className="bg-background relative overflow-hidden">
+    
       {/* Decorative botanical elements */}
       <div className="absolute top-20 left-10 opacity-10 pointer-events-none">
         <svg width="120" height="200" viewBox="0 0 120 200" fill="none">

@@ -77,50 +77,7 @@ const ContactSection = () => {
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  return (
-    <footer className="bg-card py-6 border-t border-border">
-      <div className="container-custom px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* Copyright */}
-          <p className="text-muted-foreground text-sm">
-            © Copyright {currentYear}{' '}
-            <a href="#" className="hover:text-primary underline">
-              Achulene
-            </a>
-          </p>
 
-          {/* Logo */}
-          <div className="flex items-center">
-            <img 
-              src={logo} 
-              alt="Achulene - Impresso Espresso" 
-              className="h-10 w-auto object-contain"
-            />
-          </div>
-
-          {/* Social Links */}
-          <div className="flex items-center gap-4">
-            <a
-              href="https://www.instagram.com/cafe.restaurant.achulene/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              <Instagram className="h-5 w-5" />
-            </a>
-            <a
-              href="https://wa.me/212666908679"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              <MessageCircle className="h-5 w-5" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
 };
 
 export { ContactSection, Footer };

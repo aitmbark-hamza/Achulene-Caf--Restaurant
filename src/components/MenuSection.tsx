@@ -6,8 +6,8 @@ import brunchImg from '@/assets/brunch.jpg';
 import burgerImg from '@/assets/burger.jpg';
 import pastaImg from '@/assets/pasta.jpg';
 import pizzaImg from '@/assets/pizza.jpg';
-import dessertImg from '@/assets/img8.png';
-import coffeeImg from '@/assets/img6.png';
+import dessertImg from '@/assets/img6.png';
+import coffeeImg from '@/assets/img8.png';
 
 interface MenuItem {
   name: string;
@@ -226,53 +226,53 @@ const MenuSection = () => {
 
           {categories.map((category) => (
             <TabsContent key={category} value={category} className="mt-0">
-              <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
-                {/* Image Column */}
-                <AnimatedSection animation="fade-right" className="lg:col-span-1">
-                  <div className="relative sticky top-28">
-                    <img
-                      src={categoryImages[category]}
-                      alt={category}
-                      className="w-full h-80 lg:h-[500px] object-cover rounded-lg shadow-lg"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent rounded-lg" />
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <span className="text-label text-primary-foreground/80 mb-2 block">Catégorie</span>
-                      <h3 className="font-display text-3xl font-semibold text-primary-foreground">{category}</h3>
-                    </div>
-                  </div>
-                </AnimatedSection>
-
-                {/* Menu Items */}
-                <div className="lg:col-span-2 space-y-8">
-                  {menuData[category].map((subcategory, idx) => (
-                    <AnimatedSection key={subcategory.title} animation="fade-up" delay={idx * 100}>
-                      <div className="border-b border-border pb-6 mb-6">
-                        <h4 className="text-label text-primary mb-6">{subcategory.title}</h4>
-                        <div className="space-y-4">
-                          {subcategory.items.map((item, itemIdx) => (
-                            <div
-                              key={item.name}
-                              className="flex items-baseline group cursor-pointer transform transition-all duration-300 hover:translate-x-2 hover:scale-[1.02] opacity-0 animate-fade-in"
-                              style={{ 
-                                animationDelay: `${itemIdx * 80}ms`,
-                                animationFillMode: 'forwards'
-                              }}
-                            >
-                              <span className="font-display text-xl text-foreground group-hover:text-primary transition-colors duration-300">
-                                {item.name}
-                              </span>
-                              <span className="menu-item-line group-hover:bg-primary/40 transition-colors duration-300" />
-                              <span className="font-display text-xl text-primary font-semibold group-hover:scale-110 transition-transform duration-300 origin-right">
+              <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
+                {menuData[category].map((subcategory, idx) => (
+                  <AnimatedSection key={subcategory.title} animation="fade-up" delay={idx * 100}>
+                    <div className="pb-4">
+                      <h4 className="text-label text-primary mb-6">{subcategory.title}</h4>
+                      <div className="space-y-5">
+                        {subcategory.items.map((item, itemIdx) => (
+                          <div
+                            key={item.name}
+                            className="flex items-center gap-4 group cursor-pointer transform transition-all duration-300 hover:translate-x-2 opacity-0 animate-fade-in"
+                            style={{ 
+                              animationDelay: `${itemIdx * 80}ms`,
+                              animationFillMode: 'forwards'
+                            }}
+                          >
+                            {/* Small circular image */}
+                            <div className="flex-shrink-0 w-16 h-16 rounded-full overflow-hidden border-2 border-primary/20 group-hover:border-primary transition-colors duration-300 shadow-md">
+                              <img
+                                src={categoryImages[category]}
+                                alt={item.name}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                              />
+                            </div>
+                            
+                            {/* Item details */}
+                            <div className="flex-1 flex items-baseline">
+                              <div className="flex-1">
+                                <span className="font-display text-lg text-foreground group-hover:text-primary transition-colors duration-300 block">
+                                  {item.name}
+                                </span>
+                                {item.description && (
+                                  <span className="text-sm text-muted-foreground">
+                                    {item.description}
+                                  </span>
+                                )}
+                              </div>
+                              <span className="menu-item-line mx-3 group-hover:bg-primary/40 transition-colors duration-300" />
+                              <span className="font-display text-lg text-primary font-semibold group-hover:scale-110 transition-transform duration-300 origin-right">
                                 {item.price}
                               </span>
                             </div>
-                          ))}
-                        </div>
+                          </div>
+                        ))}
                       </div>
-                    </AnimatedSection>
-                  ))}
-                </div>
+                    </div>
+                  </AnimatedSection>
+                ))}
               </div>
             </TabsContent>
           ))}
