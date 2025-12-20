@@ -1,0 +1,304 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 30 20% 97%;
+    --foreground: 30 10% 15%;
+
+    --card: 30 15% 95%;
+    --card-foreground: 30 10% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 30 10% 15%;
+
+    --primary: 0 72% 51%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 30 15% 92%;
+    --secondary-foreground: 30 10% 20%;
+
+    --muted: 30 10% 90%;
+    --muted-foreground: 30 8% 45%;
+
+    --accent: 43 96% 56%;
+    --accent-foreground: 30 10% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 10% 85%;
+    --input: 30 10% 85%;
+    --ring: 0 72% 51%;
+
+    --radius: 0rem;
+
+    /* Custom colors - Crafto light style */
+    --red-accent: 0 72% 51%;
+    --golden: 43 96% 56%;
+    --cream: 30 20% 97%;
+    --cream-dark: 30 15% 92%;
+    --charcoal: 30 10% 15%;
+    --dark-text: 30 10% 20%;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 30 10% 15%;
+    --sidebar-primary: 0 72% 51%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 30 15% 95%;
+    --sidebar-accent-foreground: 30 10% 15%;
+    --sidebar-border: 30 10% 85%;
+    --sidebar-ring: 0 72% 51%;
+  }
+
+  .dark {
+    --background: 30 10% 6%;
+    --foreground: 45 20% 95%;
+
+    --card: 30 12% 10%;
+    --card-foreground: 45 20% 95%;
+
+    --popover: 30 12% 10%;
+    --popover-foreground: 45 20% 95%;
+
+    --primary: 0 72% 51%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 30 12% 15%;
+    --secondary-foreground: 45 20% 95%;
+
+    --muted: 30 10% 18%;
+    --muted-foreground: 45 10% 60%;
+
+    --accent: 43 96% 56%;
+    --accent-foreground: 30 10% 10%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 30 10% 20%;
+    --input: 30 10% 20%;
+    --ring: 0 72% 51%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply px-4 py-20 md:px-8 md:py-28 lg:px-16 lg:py-36;
+  }
+
+  .container-custom {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .heading-display {
+    @apply text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight uppercase;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .heading-section {
+    @apply text-3xl md:text-5xl lg:text-6xl font-semibold;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .text-body {
+    @apply text-base md:text-lg leading-relaxed;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .text-label {
+    @apply text-xs md:text-sm font-medium uppercase tracking-[0.2em];
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .gradient-overlay {
+    background: linear-gradient(to bottom, 
+      hsl(var(--background) / 0.3) 0%, 
+      hsl(var(--background) / 0.7) 100%
+    );
+  }
+
+  .section-divider {
+    @apply text-primary text-center tracking-[0.3em] text-xs font-medium uppercase;
+  }
+
+  .menu-item-line {
+    @apply flex-1 border-b border-dashed border-border mx-4;
+  }
+
+  .marquee-text {
+    @apply text-7xl md:text-9xl font-bold uppercase tracking-wide;
+    font-family: 'Cormorant Garamond', serif;
+    -webkit-text-stroke: 2px hsl(var(--muted-foreground));
+    color: transparent;
+  }
+
+  .marquee-text-filled {
+    @apply text-7xl md:text-9xl font-bold uppercase tracking-wide text-foreground;
+    font-family: 'Cormorant Garamond', serif;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.8s ease-out forwards;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.8s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.6s ease-out forwards;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .hover-lift:hover {
+    @apply -translate-y-1 shadow-lg;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .parallax {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .marquee-scroll {
+    animation: marquee 30s linear infinite;
+  }
+
+  .animate-spin-slow {
+    animation: spin 20s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.5);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.7);
+}
