@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import AnimatedSection from '@/components/AnimatedSection';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Soup, Drumstick, Pizza, IceCream, Coffee, Beef } from 'lucide-react';
+// Updated imports: Added CakeSlice and UtensilsCrossed
+import { Soup, Drumstick, Pizza, CakeSlice, Coffee, UtensilsCrossed } from 'lucide-react';
 import brunchImg from '@/assets/brunch.jpg';
 import burgerImg from '@/assets/burger.jpg';
 import pastaImg from '@/assets/pasta.jpg';
@@ -134,12 +135,13 @@ const menuData: Record<string, MenuCategory[]> = {
   ],
 };
 
+// UPDATED categoryIcons mapping
 const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   'Petit-déjeuner': Soup,
   'Plats': Drumstick,
-  'Burgers': Beef,
+  'Burgers': UtensilsCrossed, // Changed from Beef to UtensilsCrossed
   'Pizza': Pizza,
-  'Desserts': IceCream,
+  'Desserts': CakeSlice,      // Changed from IceCream to CakeSlice
   'Boissons': Coffee,
 };
 
@@ -241,7 +243,6 @@ const MenuSection = () => {
                               animationFillMode: 'forwards'
                             }}
                           >
-                            {/* Small circular image */}
                             <div className="flex-shrink-0 w-16 h-16 rounded-full overflow-hidden border-2 border-primary/20 group-hover:border-primary transition-colors duration-300 shadow-md">
                               <img
                                 src={categoryImages[category]}
@@ -250,7 +251,6 @@ const MenuSection = () => {
                               />
                             </div>
                             
-                            {/* Item details */}
                             <div className="flex-1 flex items-baseline">
                               <div className="flex-1">
                                 <span className="font-display text-lg text-foreground group-hover:text-primary transition-colors duration-300 block">
@@ -278,7 +278,6 @@ const MenuSection = () => {
           ))}
         </Tabs>
 
-        {/* Bottom Masterchef Badge */}
         <AnimatedSection animation="fade-up" className="text-center mt-12 pt-8 border-t border-border">
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <span className="bg-primary text-primary-foreground px-4 py-1.5 rounded-full text-sm font-medium">
