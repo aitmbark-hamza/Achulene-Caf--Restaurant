@@ -7,6 +7,15 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -32,21 +41,23 @@ const Navigation = () => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      scrolled ? 'bg-background/95 backdrop-blur-md border-b border-border' : 'bg-transparent'
+    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
+      scrolled || isOpen ? 'bg-background border-b border-border' : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="flex items-center justify-between h-20 md:h-24">
+        <div className="flex items-center justify-between h-20 md:h-24 relative z-[110]">
+          
           {/* Logo */}
           <a 
             href="#accueil" 
             onClick={(e) => { e.preventDefault(); scrollToSection('#accueil'); }}
-            className="flex items-center group"
+            className="flex items-center h-full py-2"
           >
             <img 
               src={logo} 
-              alt="Achulene - Impresso Espresso" 
-              className="h-20 md:h-80 w-auto object-contain"
+              alt="Achulene" 
+              className="h-40 md:h-80 w-auto object-contain transition-all duration-300"
+              style={{ maxWidth: '160px' }} 
             />
           </a>
 
@@ -65,11 +76,10 @@ const Navigation = () => {
             ))}
           </div>
 
-          {/* CTA Button Desktop */}
+          {/* Desktop Button */}
           <div className="hidden lg:block">
             <Button 
               variant="crafto" 
-              size="default"
               onClick={() => window.open('https://wa.me/212666908679', '_blank')}
               className="rounded-none"
             >
@@ -77,42 +87,52 @@ const Navigation = () => {
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Toggle Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 text-foreground"
-            aria-label="Toggle menu"
+            className="lg:hidden flex items-center justify-center w-12 h-12 text-foreground focus:outline-none"
           >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isOpen ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Sidebar Overlay */}
       <div
-        className={`lg:hidden fixed inset-0 top-20 bg-background transition-all duration-500 ${
-          isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+        className={`lg:hidden fixed inset-0 bg-background transition-transform duration-500 ease-in-out z-[105] ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="px-4 py-10 space-y-1">
-          {navLinks.map((link, index) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
-              className="block text-foreground hover:text-primary transition-colors duration-300 text-3xl font-display font-semibold py-4 border-b border-border uppercase"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              {link.label}
-            </a>
-          ))}
-          <Button 
-            variant="crafto" 
-            className="w-full mt-8 h-14 text-lg rounded-none"
-            onClick={() => window.open('https://wa.me/212666908679', '_blank')}
+        <div className="flex flex-col h-full pt-32 px-10">
+          <div className="flex flex-col space-y-6">
+            {navLinks.map((link, index) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
+                className={`text-foreground text-3xl font-display font-bold uppercase border-b border-border/50 pb-4 transition-all duration-500 transform ${
+                  isOpen ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'
+                }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <div className={`mt-10 transition-all duration-700 transform ${
+            isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+          }`}
+          style={{ transitionDelay: `${navLinks.length * 100}ms` }}
           >
-            Réserver une table
-          </Button>
+            <Button 
+              variant="crafto" 
+              className="w-full h-16 text-lg rounded-none uppercase tracking-widest"
+              onClick={() => window.open('https://wa.me/212666908679', '_blank')}
+            >
+              Réserver une table
+            </Button>
+          </div>
         </div>
       </div>
     </nav>
