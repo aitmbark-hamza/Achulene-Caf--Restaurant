@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import AnimatedSection from '@/components/AnimatedSection';
 import { Button } from '@/components/ui/button';
-import { Phone } from 'lucide-react';
-import pizzaImg from '@/assets/pizza.jpg';
-import brunchImg from '@/assets/brunch.jpg';
+import { Phone, Package, Utensils, ShoppingBag } from 'lucide-react';
+import pizzaImg from '@/assets/pizza.jpg'; 
 import pastaImg from '@/assets/pasta.jpg';
+import brunchImg from '@/assets/brunch.jpg';
 
 const ExperienceSection = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -18,134 +18,105 @@ const ExperienceSection = () => {
   }, []);
 
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden bg-background">
-      {/* Large background text */}
+    <section className="relative py-24 overflow-hidden bg-white">
+      {/* 1. HUGE BACKGROUND TEXT (Parallax) */}
       <div 
-        className="absolute top-0 left-0 right-0 text-[12rem] md:text-[20rem] font-bold uppercase text-muted/30 leading-none pointer-events-none select-none overflow-hidden whitespace-nowrap"
-        style={{ 
-          fontFamily: 'Cormorant Garamond, serif',
-          transform: `translateX(${-scrollY * 0.1}px)`,
-        }}
+        className="absolute top-10 left-0 right-0 text-[12rem] md:text-[22rem] font-bold uppercase text-gray-100/70 leading-none pointer-events-none select-none whitespace-nowrap z-0"
+        style={{ transform: `translateX(${-scrollY * 0.12}px)` }}
       >
         EXPERIENCE
       </div>
 
       <div className="container-custom px-4 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left side - Main dish with decorative elements */}
-          <div className="relative">
-            {/* Decorative food elements */}
-            <AnimatedSection 
-              animation="fade-up" 
-              delay={200}
-              className="absolute -top-8 left-1/2 transform -translate-x-1/2 z-10"
+        <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
+          
+          {/* 2. IMAGE ARRANGEMENT (MATCHING THE PIC) */}
+          <div className="relative flex justify-center items-center h-[400px] md:h-[550px]">
+            
+            {/* LEFT PLATE (BRUNCH) - Orbiting on the far left */}
+            <div 
+              className="absolute -left-12 md:-left-20 w-32 h-32 md:w-44 md:h-44 z-20"
+              style={{ 
+                transform: `translateY(${scrollY * 0.07}px)`, // Moves up/down with scroll
+                transition: 'transform 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67)'
+              }}
             >
-              <img
-                src={pastaImg}
-                alt="Décoration"
-                className="w-20 h-20 object-cover rounded-full shadow-lg"
-                style={{ transform: `translateY(${scrollY * 0.05}px)` }}
-              />
-            </AnimatedSection>
-
-            {/* Small decorative element left */}
-            <AnimatedSection 
-              animation="fade-right" 
-              delay={300}
-              className="absolute -left-8 top-1/4 z-10"
-            >
-              <div 
-                className="w-16 h-16 rounded-full overflow-hidden shadow-lg"
-                style={{ transform: `translateY(${scrollY * 0.03}px)` }}
-              >
-                <img
-                  src={brunchImg}
-                  alt="Décoration"
-                  className="w-full h-full object-cover"
-                />
+              <div className="w-full h-full rounded-full overflow-hidden border-4 border-white shadow-2xl bg-white">
+                <img src={brunchImg} alt="Brunch" className="w-full h-full object-cover" />
               </div>
-            </AnimatedSection>
-
-            {/* Main plate image */}
-            <AnimatedSection animation="scale" delay={100}>
-              <div className="relative mx-auto w-80 h-80 md:w-[450px] md:h-[450px]">
-                {/* Stone plate effect */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-muted to-muted/50 shadow-2xl" />
-                <div className="absolute inset-4 rounded-full bg-background shadow-inner" />
-                <img
-                  src={pizzaImg}
-                  alt="Pizza signature Achulene"
-                  className="absolute inset-8 w-auto h-auto max-w-full max-h-full object-cover rounded-full"
-                  style={{ transform: `translateY(${-scrollY * 0.02}px)` }}
-                />
-              </div>
-            </AnimatedSection>
-
-            {/* Decorative dots */}
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex gap-2">
-              <div className="w-2 h-2 rounded-full bg-primary" />
-              <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
-              <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
             </div>
+
+            {/* CENTER MAIN PLATE (PIZZA) */}
+            <AnimatedSection animation="scale" delay={100} className="relative z-10">
+              <div className="relative w-64 h-64 md:w-[450px] md:h-[450px]">
+                {/* Dark Stone Under-Plate Effect */}
+                <div className="absolute inset-[-15px] rounded-full bg-[#2a2a2a] shadow-2xl scale-105" />
+                <div className="relative w-full h-full rounded-full overflow-hidden border-[12px] border-white shadow-xl">
+                  <img
+                    src={pizzaImg}
+                    alt="Main Dish"
+                    className="w-full h-full object-cover"
+                    style={{ transform: `rotate(${scrollY * 0.05}deg)` }}
+                  />
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {/* RIGHT PLATE (PASTA) - Orbiting on the far right */}
+            <div 
+              className="absolute -right-12 md:-right-20 w-32 h-32 md:w-44 md:h-44 z-20"
+              style={{ 
+                transform: `translateY(${scrollY * 0.07}px)`, // Moves up/down with scroll
+                transition: 'transform 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67)'
+              }}
+            >
+              <div className="absolute inset-[-8px] rounded-full bg-[#333]" />
+              <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white shadow-2xl">
+                <img src={pastaImg} alt="Pasta" className="w-full h-full object-cover" />
+              </div>
+            </div>
+
+            {/* Floating Decorative Elements (Leaves) */}
+            <div className="absolute top-1/4 left-0 w-6 h-6 bg-green-500 rounded-full blur-sm opacity-40" />
+            <div className="absolute bottom-1/4 right-0 w-4 h-8 bg-red-500 rounded-full blur-[1px] rotate-45" />
           </div>
 
-          {/* Right side - Content + Additional image */}
-          <div className="flex flex-col lg:flex-row gap-8 items-start">
-            <div className="flex-1">
-              <AnimatedSection animation="fade-up">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-px bg-primary" />
-                  <span className="text-primary text-sm font-medium uppercase tracking-wider">
-                    Depuis 2020
-                  </span>
-                </div>
+          {/* 3. CONTENT (RIGHT SIDE) */}
+          <div className="text-left lg:pl-16">
+            <AnimatedSection animation="fade-left">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-10 h-[2px] bg-primary" />
+                <span className="text-primary font-bold tracking-[0.25em] text-xs uppercase">
+                  SINCE 1888
+                </span>
+              </div>
 
-                <h2 className="heading-section text-foreground uppercase font-bold mb-6 leading-tight">
-                  Une Expérience<br />
-                  Culinaire &<br />
-                  Gourmande.
-                </h2>
+              <h2 className="text-4xl md:text-6xl font-black text-gray-900 leading-[1.05] mb-8 uppercase tracking-tighter">
+                Wonderful Dining <br />
+                Experience & Food.
+              </h2>
 
-                <p className="text-muted-foreground mb-8 leading-relaxed">
-                  Découvrez notre cuisine authentique où chaque plat est préparé avec passion. 
-                  Des ingrédients frais, des recettes traditionnelles revisitées, 
-                  et une ambiance chaleureuse vous attendent.
-                </p>
+              <p className="text-gray-500 text-lg mb-10 max-w-lg leading-relaxed">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+              </p>
 
-                <div className="flex flex-wrap items-center gap-4">
-                  <Button
-                    variant="default"
-                    className="bg-foreground text-background hover:bg-foreground/90 uppercase tracking-wider px-8"
-                    onClick={() => document.querySelector('#apropos')?.scrollIntoView({ behavior: 'smooth' })}
-                  >
-                    À Propos
-                  </Button>
-                  <a
-                    href="tel:+212666908679"
-                    className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
-                  >
-                    <Phone className="h-5 w-5" />
-                    <span className="font-medium">+212 666 90 86 79</span>
-                  </a>
-                </div>
-              </AnimatedSection>
-            </div>
-
-            {/* Side image */}
-            <AnimatedSection animation="fade-left" delay={200} className="hidden lg:block">
-              <div 
-                className="relative w-48"
-                style={{ transform: `translateY(${scrollY * 0.03}px)` }}
-              >
-                <img
-                  src={pastaImg}
-                  alt="Pasta fraîche"
-                  className="w-full h-64 object-cover rounded-lg shadow-lg"
-                />
+              <div className="flex flex-wrap items-center gap-8">
+                <Button className="bg-[#2a2a2a] text-white hover:bg-black rounded-sm px-10 py-7 text-xs font-bold uppercase tracking-widest transition-all">
+                  About Restaurant
+                </Button>
+                
+                <a href="tel:1-800-222-000" className="flex items-center gap-3 text-gray-900 group">
+                  <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <span className="font-bold text-lg">1-800-222-000</span>
+                </a>
               </div>
             </AnimatedSection>
           </div>
         </div>
+       
       </div>
     </section>
   );
