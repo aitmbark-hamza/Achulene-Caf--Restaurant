@@ -56,8 +56,8 @@ const Navigation = () => {
             <img 
               src={logo} 
               alt="Achulene" 
-              className="h-40 md:h-80 w-auto object-contain transition-all duration-300"
-              style={{ maxWidth: '160px' }} 
+              className="h-32 md:h-80 w-auto object-contain transition-all duration-400"
+              style={{ maxWidth: '180px' }} 
             />
           </a>
 
