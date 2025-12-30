@@ -110,7 +110,7 @@ const ExperienceSection = () => {
                   <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
                     <Phone className="w-5 h-5" />
                   </div>
-                  <span className="font-bold text-lg">1-800-222-000</span>
+                  <span className="font-bold text-lg">+212666908679</span>
                 </a>
               </div>
             </AnimatedSection>
