@@ -1,7 +1,7 @@
 import AnimatedSection from '@/components/AnimatedSection';
 import { Button } from '@/components/ui/button';
 import { User, Mail, MessageSquare } from 'lucide-react';
-import burgerImg from '@/assets/burger.jpg';
+import burgerImg from '@/assets/img14.png';
 
 const LocationSection = () => {
   return (

@@ -10,24 +10,18 @@ import img3 from '@/assets/img3.png';
 import img4 from '@/assets/img4.png';
 import img5 from '@/assets/img5.png';
 import img6 from '@/assets/img6.png';
-import img7 from '@/assets/img7.png';
 import img8 from '@/assets/img8.png';
 import img9 from '@/assets/img9.png';
 import img10 from '@/assets/img10.png';
 import img11 from '@/assets/img11.png';
-import img12 from '@/assets/img12.png';
-import img13 from '@/assets/img13.png';
 import img14 from '@/assets/img14.png';
-import img15 from '@/assets/img15.png';
-import img16 from '@/assets/img16.png';
-import img17 from '@/assets/img17.png';
 import img18 from '@/assets/img18.png';
 import img19 from '@/assets/img19.png';
 import img20 from '@/assets/img20.png';
 import img21 from '@/assets/img21.png';
 import img22 from '@/assets/img22.png';
 import img24 from '@/assets/img24.png';
-import img25 from '@/assets/img25.png';
+
 import img26 from '@/assets/img26.png';
 
 const galleryImages = [
@@ -37,24 +31,18 @@ const galleryImages = [
   { src: img4, title: 'Photo 4', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img5, title: 'Photo 5', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img6, title: 'Photo 6', ingredients: ["Description: vérifier l'image et modifier"] },
-  { src: img7, title: 'Photo 7', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img8, title: 'Photo 8', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img9, title: 'Photo 9', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img10, title: 'Photo 10', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img11, title: 'Photo 11', ingredients: ["Description: vérifier l'image et modifier"] },
-  { src: img12, title: 'Photo 12', ingredients: ["Description: vérifier l'image et modifier"] },
-  { src: img13, title: 'Photo 13', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img14, title: 'Photo 14', ingredients: ["Description: vérifier l'image et modifier"] },
-  { src: img15, title: 'Photo 15', ingredients: ["Description: vérifier l'image et modifier"] },
-  { src: img16, title: 'Photo 16', ingredients: ["Description: vérifier l'image et modifier"] },
-  { src: img17, title: 'Photo 17', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img18, title: 'Photo 18', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img19, title: 'Photo 19', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img20, title: 'Photo 20', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img21, title: 'Photo 21', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img22, title: 'Photo 22', ingredients: ["Description: vérifier l'image et modifier"] },
   { src: img24, title: 'Photo 24', ingredients: ["Description: vérifier l'image et modifier"] },
-  { src: img25, title: 'Photo 25', ingredients: ["Description: vérifier l'image et modifier"] },
+
   { src: img26, title: 'Photo 26', ingredients: ["Description: vérifier l'image et modifier"] },
 ];
 
@@ -213,7 +201,7 @@ const GallerySection = () => {
           {galleryImages.map((image, index) => (
             <div key={index} className="flex-shrink-0">
               <AnimatedSection animation="scale" delay={index * 30}>
-                <div 
+                <div
                   onClick={() => !isDragging.current && setSelectedImage(index)}
                   className="group block"
                 >
