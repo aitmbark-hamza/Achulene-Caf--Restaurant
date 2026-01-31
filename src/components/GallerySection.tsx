@@ -1,7 +1,7 @@
 import { useState, useRef, MouseEvent, useEffect } from 'react';
 import AnimatedSection from '@/components/AnimatedSection';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 
 // Image imports
 import img1 from '@/assets/img1.png';
@@ -232,16 +232,49 @@ const GallerySection = () => {
           {galleryImages.map((image, index) => (
             <div key={index} className="flex-shrink-0">
               <AnimatedSection animation="scale" delay={index * 30}>
-                <div onClick={() => !isDragging.current && setSelectedImage(index)} className="group cursor-pointer">
-                  <div className="relative w-72 md:w-80 overflow-hidden rounded-lg">
-                    <img src={image.src} alt={image.title} className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none" />
-                  </div>
-                  <div className="mt-4 text-center">
-                    <h3 className="font-display text-xl font-semibold text-foreground">{image.title}</h3>
+                <div 
+                  onClick={() => !isDragging.current && setSelectedImage(index)}
+                  className="group block"
+                >
+                  <div className="relative w-72 md:w-80 transform transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl group-hover:-rotate-1">
+                    {/* Polaroid card */}
+                    <div className="bg-white p-3 rounded-xl shadow-lg overflow-hidden">
+                      <div className="relative overflow-hidden rounded-md">
+                        <img
+                          src={image.src}
+                          alt={image.title}
+                          className="w-full h-72 md:h-80 object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+
+                        {/* Center hover icon */}
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="bg-black/50 rounded-full p-3 text-white">
+                            <Search className="h-6 w-6" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Polaroid caption */}
+                      <div className="mt-3 text-center">
+                        <h4 className="text-sm font-medium text-foreground">{image.title}</h4>
+                           <p className="text-sm text-muted-foreground mt-1">{image.ingredients?.[0]}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </AnimatedSection>
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Marquee Section */}
+      <div className="mt-16 overflow-hidden">
+        <div className="marquee-scroll flex whitespace-nowrap">
+          {['DÉLICIEUX', 'AWESOME', 'EXPÉRIENCE', 'CUISINE', 'DÉLICIEUX', 'AWESOME', 'EXPÉRIENCE', 'CUISINE'].map((text, i) => (
+            <span key={i} className={i % 2 === 0 ? "marquee-text mx-8" : "marquee-text-filled mx-8"}>
+              {text}
+            </span>
           ))}
         </div>
       </div>
