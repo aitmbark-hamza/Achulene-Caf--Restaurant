@@ -27,7 +27,7 @@ const ContactSection = () => {
       icon: MapPin,
       title: 'NOTRE ADRESSE',
       lines: ['Casablanca, Maroc', 'Ouvert tous les jours'],
-      link: 'https://maps.app.goo.gl/YourActualGoogleMapsLinkHere', // Replace with your actual maps link
+      link: 'https://maps.app.goo.gl/ie5GjFqjjZKJW2EU9', // Maps link - updated to the real location
     },
   ];
 
@@ -99,10 +99,10 @@ const Footer = () => {
     <footer className="bg-muted/30 border-t border-border py-12">
       <div className="container-custom flex flex-col items-center">
         <div className="flex space-x-6 mb-6">
-           <a href="https://www.instagram.com/cafe.restaurant.achulene/" target="_blank" className="text-muted-foreground hover:text-primary transition-colors">
+           <a href="https://www.instagram.com/cafe.restaurant.achulene/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors">
             <Instagram className="h-5 w-5" />
            </a>
-           <a href="https://wa.me/212666908679" target="_blank" className="text-muted-foreground hover:text-primary transition-colors">
+           <a href="https://wa.me/212666908679" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="text-muted-foreground hover:text-primary transition-colors">
             <MessageCircle className="h-5 w-5" />
            </a>
         </div>

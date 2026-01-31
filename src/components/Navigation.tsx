@@ -28,6 +28,7 @@ const Navigation = () => {
     { href: '#accueil', label: 'Accueil' },
     { href: '#apropos', label: 'À Propos' },
     { href: '#menu', label: 'Menu' },
+    { href: '#chefs', label: 'Chefs' },
     { href: '#galerie', label: 'Galerie' },
     { href: '#contact', label: 'Contact' },
   ];
